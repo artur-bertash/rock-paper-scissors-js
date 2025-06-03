@@ -25,22 +25,37 @@ function getHumanChoice() {
 function playGame() {
     let humanScore = 0;
     let computerScore = 0;
+    let numberOfRounds = 0;
+    // for (let i = 0; i < 5; i++) {
+    //     console.log(`\nRound ${i}:`)
+    //     const human = getHumanChoice()
+    //     const computer = getComputerChoice()
+    //     playRound(human, computer)
+    // }
+    const buttons = document.querySelectorAll(".container button")
+    const result = document.querySelector(".result")
 
-    for (let i = 0; i < 5; i++) {
-        console.log(`\nRound ${i}:`)
-        const human = getHumanChoice()
-        const computer = getComputerChoice()
-        playRound(human, computer)
-    }
+    buttons.forEach(button => {
+        button.addEventListener("click", () => {
+            if (numberOfRounds >= 5) return;
+            console.log(button.id)
+            const humanChoice = button.id
+            const computerChoice = getComputerChoice()
+            playRound(humanChoice, computerChoice)
+            numberOfRounds++
 
-    console.log("\nFinal Result:");
-    if (humanScore > computerScore) {
-        console.log("You won the game!");
-    } else if (humanScore < computerScore) {
-        console.log("You lost the game.");
-    } else {
-        console.log("It's a draw!");
-    }
+            if (numberOfRounds === 5) {
+                if (humanScore > computerScore) {
+                    result.textContent = "You won the game!"
+                } else if (humanScore < computerScore) {
+                    result.textContent = "You lost the game!"
+                } else {
+                    result.textContent = "It is a tie!"
+                }
+            }
+        })
+    })
+
 
 
     function playRound(humanChoice, computerChoice) {
@@ -52,10 +67,10 @@ function playGame() {
             (humanChoiceLowerCase === "scissors" && computerChoice === "paper") ||
             (humanChoiceLowerCase === "paper" && computerChoice === "rock")
         ) {
-            console.log("You win!");
+            console.log("Round :" + numberOfRounds + " .You win!");
             humanScore++
         } else {
-            console.log("You lose!");
+            console.log("Round :" + numberOfRounds + " .You lose!");
             computerScore++
         }
     }
